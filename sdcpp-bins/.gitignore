@@ -3,4 +3,3 @@ win-rocm-x64/**
 win-cuda-x64/**
 linux-vulkan-x64/**
 osx-arm64/**
-__pycache__

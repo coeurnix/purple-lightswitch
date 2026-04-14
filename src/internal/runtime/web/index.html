@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Purple Lightswitch</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="app-topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 72 72" role="img" focusable="false">
+            <defs>
+              <linearGradient id="brand-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#73f0d1"/>
+                <stop offset="100%" stop-color="#ff7b5c"/>
+              </linearGradient>
+            </defs>
+            <rect x="8" y="8" width="56" height="56" rx="18" fill="#112336"/>
+            <path d="M23 25c0-7.7 6.3-14 14-14h12v10H37c-2.2 0-4 1.8-4 4v3h20v10H33v9h-10V25z" fill="url(#brand-glow)"/>
+            <circle cx="49" cy="48" r="7" fill="#f7fbff"/>
+          </svg>
+        </div>
+        <div>
+          <p class="eyebrow">Purple Lightswitch</p>
+          <h1>Photo Restyler</h1>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero-card">
+      <div class="hero-copy">
+        <p class="hero-kicker">Big transformations</p>
+        <p class="subcopy">Pick a wild preset, add a photo, and get back a bold new version that still matches the shot you took.</p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 260 160" role="img" focusable="false">
+          <defs>
+            <linearGradient id="hero-before" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f7fbff"/>
+              <stop offset="100%" stop-color="#dbe7f7"/>
+            </linearGradient>
+            <linearGradient id="hero-after" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#8ef5d4"/>
+              <stop offset="55%" stop-color="#7ca8ff"/>
+              <stop offset="100%" stop-color="#ff8f72"/>
+            </linearGradient>
+          </defs>
+          <rect x="16" y="24" width="82" height="112" rx="24" fill="url(#hero-before)"/>
+          <rect x="26" y="34" width="62" height="76" rx="14" fill="#13263b" opacity="0.96"/>
+          <circle cx="43" cy="51" r="8" fill="#ff8f72"/>
+          <path d="M34 92c8-18 17-28 27-28 9 0 15 6 24 18" fill="none" stroke="#7ca8ff" stroke-linecap="round" stroke-width="10"/>
+          <path d="M107 80h34" fill="none" stroke="#f7fbff" stroke-linecap="round" stroke-width="8" opacity="0.85"/>
+          <path d="M130 70l12 10-12 10" fill="none" stroke="#f7fbff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" opacity="0.85"/>
+          <g transform="translate(136 28)">
+            <rect x="0" y="0" width="108" height="100" rx="24" fill="#f8fbff" opacity="0.96"/>
+            <rect x="16" y="18" width="76" height="56" rx="18" fill="#d7dde7"/>
+            <path d="M25 56c13-18 26-31 40-31 11 0 24 5 40 18" fill="none" stroke="#13263b" stroke-linecap="round" stroke-width="10"/>
+            <circle cx="60" cy="34" r="9" fill="#7ca8ff"/>
+            <circle cx="82" cy="70" r="8" fill="#8ef5d4"/>
+          </g>
+          <g transform="translate(120 24) rotate(-24 16 44)">
+            <rect x="13" y="20" width="8" height="44" rx="4" fill="#ffd7a8"/>
+            <rect x="13" y="18" width="8" height="12" rx="4" fill="#ff8f72"/>
+            <path d="M16 10l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="url(#hero-after)"/>
+            <path d="M29 26l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#8ef5d4"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section id="setup-screen" class="screen">
+      <div class="card">
+        <div class="preset-header">
+          <p class="section-label">Transformation</p>
+          <button id="preset-toggle" class="preset-toggle" type="button" aria-expanded="true">Hide choices</button>
+        </div>
+        <div id="preset-summary" class="preset-summary" hidden>
+          <div>
+            <p id="preset-summary-name" class="preset-summary-name"></p>
+            <p id="preset-summary-tag" class="preset-summary-tag"></p>
+          </div>
+        </div>
+        <div id="preset-list" class="preset-list">
+          {{range .Presets}}
+          <button type="button" class="preset" data-preset="{{.ID}}">
+            <span class="preset-name">{{.Name}}</span>
+            <span class="preset-tag">{{.Tagline}}</span>
+          </button>
+          {{end}}
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="section-label">Photo</p>
+        <label class="upload" for="photo-input">
+          <input id="photo-input" type="file" accept="image/*" capture="environment">
+          <span>Take a photo or choose one</span>
+        </label>
+
+        <div class="image-box">
+          <img id="preview-image" alt="Selected photo" hidden>
+          <p id="preview-empty">Your photo preview shows here.</p>
+        </div>
+
+        <button id="transform-button" class="main-button" type="button">Restyle photo</button>
+        <p id="setup-note" class="setup-note" aria-live="polite">Ready when you are.</p>
+      </div>
+    </section>
+
+    <section id="working-screen" class="screen" hidden>
+      <div class="card focus-card">
+        <p class="section-label">Rendering</p>
+        <h2 id="working-title">Getting things ready</h2>
+        <p id="working-detail" class="stage-copy">Your photo is on its way to the renderer.</p>
+
+        <div class="progress-block" aria-live="polite">
+          <div class="progress-track">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+          <p id="progress-label" class="progress-label">Waiting for the renderer</p>
+        </div>
+
+        <div class="image-box working-preview-box">
+          <img id="working-preview" alt="Photo being rendered" hidden>
+          <p id="working-preview-empty">The selected photo will stay here while it renders.</p>
+        </div>
+
+        <button id="cancel-button" class="ghost-button" type="button">Cancel render</button>
+      </div>
+    </section>
+
+    <section id="done-screen" class="screen" hidden>
+      <div class="card focus-card">
+        <p class="section-label">Result</p>
+        <h2>Your new image is ready</h2>
+        <p class="stage-copy">Save it, try another look, or start over.</p>
+
+        <div class="image-box result-box">
+          <img id="result-image" alt="Rendered result" hidden>
+          <p id="result-empty">Your rendered image will appear here.</p>
+        </div>
+
+        <a id="download-link" class="main-button save-link" download hidden>Save image</a>
+        <button id="reuse-button" class="ghost-button" type="button">Try another style with this photo</button>
+        <button id="restart-button" class="ghost-button" type="button">Start another</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

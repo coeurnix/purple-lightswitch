@@ -1,0 +1,3 @@
+z-image-turbo/**/*.gguf
+z-image-turbo/**/*.safetensors
+qwen3-4b-instruct-2507/**/*.gguf
